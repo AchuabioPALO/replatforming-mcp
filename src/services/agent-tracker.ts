@@ -220,6 +220,9 @@ export class AgentTracker {
     } else {
       this.metrics.failedRequests++;
     }
+    
+    // Update and broadcast all metrics
+    this.updateMetrics();
   }
 
   /**
@@ -287,6 +290,9 @@ export class AgentTracker {
     this.metrics.toolUsage.graph = Array.from(this.sessions.values()).reduce((sum, s) => 
       sum + s.events.filter(e => e.toolName === 'query_codebase_graph').length, 0
     );
+
+    // Broadcast updated metrics to all clients
+    this.broadcastUpdate('metrics_updated', this.metrics);
   }
 
   /**
@@ -294,7 +300,12 @@ export class AgentTracker {
    */
   private sendToClient(ws: WebSocket, message: any): void {
     if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(message));
+      // Always include timestamp for consistency with broadcastUpdate
+      const messageWithTimestamp = {
+        ...message,
+        timestamp: new Date().toISOString()
+      };
+      ws.send(JSON.stringify(messageWithTimestamp));
     }
   }
 
@@ -302,7 +313,11 @@ export class AgentTracker {
    * Broadcast update to all connected clients
    */
   private broadcastUpdate(type: string, data: any): void {
-    const message = JSON.stringify({ type, data, timestamp: new Date() });
+    const message = JSON.stringify({ 
+      type, 
+      data, 
+      timestamp: new Date().toISOString() // Convert to ISO string explicitly
+    });
     
     this.connectedClients.forEach(ws => {
       if (ws.readyState === WebSocket.OPEN) {

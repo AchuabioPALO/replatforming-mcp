@@ -46,6 +46,9 @@ export default function Dashboard() {
               : session
           ))
           break
+        case 'metrics_updated':
+          setMetrics(data.data)
+          break
         case 'session_removed':
           setSessions(prev => prev.filter(session => session.agentId !== data.data.agentId))
           break
@@ -138,7 +141,10 @@ export default function Dashboard() {
             </div>
             {lastMessage && (
               <div className="text-xs text-gray-500">
-                Last update: {new Date(lastMessage.timestamp).toLocaleTimeString()}
+                Last update: {lastMessage.timestamp 
+                  ? new Date(lastMessage.timestamp).toLocaleTimeString() 
+                  : 'No timestamp available'
+                }
               </div>
             )}
           </div>

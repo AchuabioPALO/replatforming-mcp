@@ -13,7 +13,9 @@
     "dev": "tsc --watch",
     "inspector": "npm run build && PORT=3001 npx @modelcontextprotocol/inspector node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test-dashboard": "npm run build && node test-dashboard.js"
+    "test-dashboard": "npm run build && node test-dashboard.js",
+    "test-10-agents": "./cleanup-ports.sh && npm run build && node test-multi-agent.js",
+    "cleanup": "./cleanup-ports.sh"
   },
   "keywords": [
     "mcp",
@@ -27,6 +29,7 @@
     "build"
   ],
   "devDependencies": {
+    "@types/d3-ease": "^3.0.2",
     "@types/dotenv": "^6.1.1",
     "@types/node": "^24.0.14",
     "@types/uuid": "^10.0.0",
