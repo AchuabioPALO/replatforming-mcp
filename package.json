@@ -1,0 +1,44 @@
+{
+  "name": "replatforming-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for replatforming and code modernization tasks",
+  "type": "module",
+  "main": "./build/index.js",
+  "bin": {
+    "replatforming-mcp": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x build/index.js",
+    "start": "npm run build && node build/index.js",
+    "dev": "tsc --watch",
+    "inspector": "npm run build && PORT=3001 npx @modelcontextprotocol/inspector node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-dashboard": "npm run build && node test-dashboard.js"
+  },
+  "keywords": [
+    "mcp",
+    "replatforming",
+    "modernization",
+    "migration"
+  ],
+  "author": "",
+  "license": "ISC",
+  "files": [
+    "build"
+  ],
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^24.0.14",
+    "@types/uuid": "^10.0.0",
+    "@types/ws": "^8.5.10",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.16.0",
+    "dotenv": "^16.6.1",
+    "langfuse": "^3.0.0",
+    "uuid": "^10.0.0",
+    "ws": "^8.18.0",
+    "zod": "^3.25.76"
+  }
+}
