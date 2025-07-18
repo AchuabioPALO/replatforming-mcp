@@ -123,7 +123,7 @@ server.tool(
     agentId: z.string().optional().describe("Optional agent ID for tracking")
   },
   async ({ query, agentId }) => {
-    const sessionId = agentId || agentTracker.createSession();
+    const sessionId = agentId ? agentTracker.createSession(agentId) : agentTracker.createSession();
     const startTime = Date.now();
     
     try {
@@ -196,7 +196,7 @@ server.tool(
     agentId: z.string().optional().describe("Optional agent ID for tracking")
   },
   async ({ query, agentId }) => {
-    const sessionId = agentId || agentTracker.createSession();
+    const sessionId = agentId ? agentTracker.createSession(agentId) : agentTracker.createSession();
     const startTime = Date.now();
     
     try {
